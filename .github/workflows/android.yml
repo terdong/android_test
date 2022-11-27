@@ -13,74 +13,75 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
-        
-    - name: Cache
-      uses: actions/cache@v3.0.11
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
-    - name: Build with Gradle
-      run: ./gradlew build
-      
-    - name: Build debug APK
-      run: ./gradlew assembleDebug
-      
-    - name: Upload APK
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        name: android_test
-        path: app/build/outputs/apk/debug/*.apk
-        
-    - name: SendGrid E-Mail Action
-      uses: raynigon/sendgrid-mail-action@1.0.4
-      with:
-        sendgrid-token: ${{secrets.SENDGRID_KEY}}
-        to: 'terdong@naver.com'
-        from: 'terdong@naver.com'
-        subject: '테스트 이메일입니다.3'
-        text: '안녕하세요 파일 하나 보낼께요. 진짜에요 3'
-        attachments: 'app/build/outputs/apk/debug/app-debug.apk'
-        
-#     - name: Send mail
-#       uses: dawidd6/action-send-mail@v3
+#     - name: set up JDK 11
+#       uses: actions/setup-java@v3
 #       with:
-#         # Required mail server address if not connection_url:
-#         server_address: smtp.naver.com
-#         # Server port, default 25:
-#         server_port: 465
-#         # Optional whether this connection use TLS (default is true if server_port is 465)
-#         secure: true
-#         # Optional (recommended): mail server username:
-#         username: ${{secrets.MAIL_USERNAME}}
-#         # Optional (recommended) mail server password:
-#         password: ${{secrets.MAIL_PASSWORD}}
-#         # Required mail subject:
-#         subject: Github Actions job result
-#         # Required recipients' addresses:
-#         to: terdong@gmail.com
-#         # Required sender full name (address can be skipped):
-#         from: Donghee Kim # <user@example.com>
-#         # Optional plain body:
-#         body: Build job of ${{github.repository}} completed successfully!
-#         # Optional unsigned/invalid certificates allowance:
-#         ignore_cert: true
-#         # Optional converting Markdown to HTML (set content_type to text/html too):
-#         convert_markdown: true
-#         # Optional attachments:
-#         attachments: app/build/outputs/apk/debug/*.apk
-#         # Optional priority: 'high', 'normal' (default) or 'low'
-#         priority: low
+#         java-version: '11'
+#         distribution: 'temurin'
+#         cache: gradle
+        
+#     - name: Cache
+#       uses: actions/cache@v3.0.11
+#       with:
+#         path: |
+#           ~/.gradle/caches
+#           ~/.gradle/wrapper
+#         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+#         restore-keys: |
+#           ${{ runner.os }}-gradle-
+
+#     - name: Grant execute permission for gradlew
+#       run: chmod +x gradlew
+      
+#     - name: Build with Gradle
+#       run: ./gradlew build
+      
+#     - name: Build debug APK
+#       run: ./gradlew assembleDebug
+      
+#     - name: Upload APK
+#       uses: actions/upload-artifact@v3.1.1
+#       with:
+#         name: android_test
+#         path: app/build/outputs/apk/debug/*.apk
+        
+#     - name: SendGrid E-Mail Action
+#       uses: raynigon/sendgrid-mail-action@1.0.4
+#       with:
+#         sendgrid-token: ${{secrets.SENDGRID_KEY}}
+#         to: 'terdong@naver.com'
+#         from: 'terdong@naver.com'
+#         subject: '테스트 이메일입니다.3'
+#         text: '안녕하세요 파일 하나 보낼께요. 진짜에요 3'
+#         attachments: 'app/build/outputs/apk/debug/app-debug.apk'
+        
+    - name: Send mail
+      uses: dawidd6/action-send-mail@v3
+      with:
+        # Required mail server address if not connection_url:
+        server_address: smtp.naver.com
+        # Server port, default 25:
+        server_port: 587
+#        server_port: 465
+        # Optional whether this connection use TLS (default is true if server_port is 465)
+        #secure: false
+        # Optional (recommended): mail server username:
+        username: ${{secrets.MAIL_USERNAME}}
+        # Optional (recommended) mail server password:
+        password: ${{secrets.MAIL_PASSWORD}}
+        # Required mail subject:
+        subject: Github Actions job result
+        # Required recipients' addresses:
+        to: terdong@gmail.com
+        # Required sender full name (address can be skipped):
+        from: Donghee <terdong@naver.com>
+        # Optional plain body:
+        body: Build job of ${{github.repository}} completed successfully!
+        # Optional unsigned/invalid certificates allowance:
+        #ignore_cert: true
+        # Optional converting Markdown to HTML (set content_type to text/html too):
+        #convert_markdown: true
+        # Optional attachments:
+        attachments: G3DTG-debug-v1.2.6_264-prod.apk
+        # Optional priority: 'high', 'normal' (default) or 'low'
+        #priority: low
