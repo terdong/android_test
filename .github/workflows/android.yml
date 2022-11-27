@@ -72,7 +72,7 @@ jobs:
         # Required mail subject:
         subject: Github Actions job result
         # Required recipients' addresses:
-        to: terdong@gmail.com
+        to: terdong@naver.com
         # Required sender full name (address can be skipped):
         from: Donghee <terdong@naver.com>
         # Optional plain body:
